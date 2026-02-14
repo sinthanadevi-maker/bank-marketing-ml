@@ -110,10 +110,10 @@ models = {
     "Naive Bayes": GaussianNB(),
 
     "Random Forest": RandomForestClassifier(
-        n_estimators=300,
-        random_state=RANDOM_STATE,
-        class_weight="balanced_subsample",
-        n_jobs=-1
+    n_estimators=100,
+    max_depth=None,
+    random_state=42,
+    n_jobs=-1
     ),
 
     "XGBoost": XGBClassifier(
@@ -144,7 +144,7 @@ for name, model in models.items():
     # Save model to project/models
     model_path = MODELS_DIR / f"{name.replace(' ', '_').lower()}.joblib"
     print("Saving model to:", model_path)
-    joblib.dump(pipeline, model_path)
+    joblib.dump(pipeline, model_path,compress=3)
 
     # Predictions
     y_pred = pipeline.predict(X_test)
@@ -179,3 +179,4 @@ metrics_df.to_csv(metrics_path, index=False)
 print("\nTraining complete.")
 print(f"Models saved to    : {MODELS_DIR}")
 print(f"Artifacts saved to : {ARTIFACTS_DIR}")
+
