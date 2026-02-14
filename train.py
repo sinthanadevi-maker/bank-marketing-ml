@@ -71,8 +71,16 @@ test_df.to_csv(test_split_path, index=False)
 # -----------------------------
 # Preprocessing
 # -----------------------------
-cat_cols = [col for col in X.columns if X[col].dtype == "object"]
-num_cols = [col for col in X.columns if col not in cat_cols]
+
+# -----------------------------
+# Preprocessing (Robust Version)
+# -----------------------------
+cat_cols = X.select_dtypes(include=["object"]).columns.tolist()
+num_cols = X.select_dtypes(exclude=["object"]).columns.tolist()
+
+print("Categorical columns:", cat_cols)
+print("Numerical columns  :", num_cols)
+
 
 preprocessor = ColumnTransformer(
     transformers=[
